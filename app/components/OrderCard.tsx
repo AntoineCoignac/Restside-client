@@ -1,6 +1,6 @@
 "use client";
 
-import { useOrdersStore } from "@/app/store/orders";
+import { Order } from "@/app/store/orders";
 import { displayTime } from "@/app/utils/displayTime";
 import Tag from "./Tag";
 import PizzaIcon from "../icons/react/20/solid/PizzaIcon";
@@ -9,17 +9,16 @@ import CookieIcon from "../icons/react/20/solid/Cookie";
 import { MapPinIcon } from "@heroicons/react/20/solid";
 
 interface OrderCardProps {
-    id: string;
+    order: Order;
 }
 
-export default function OrderCard({id} : OrderCardProps) {
-    const order = useOrdersStore((state) => state.orders.find((order) => order.id === id));
+export default function OrderCard({order} : OrderCardProps) {
 
     const statusToCookColor = (status: string) => {
         switch (status) {
             case "pending":
                 return "grey";
-            case "preparing":
+            case "cooking":
                 return "orange";
             case "delivering":
                 return "green";
@@ -34,7 +33,7 @@ export default function OrderCard({id} : OrderCardProps) {
         switch (status) {
             case "pending":
                 return "grey";
-            case "preparing":
+            case "cooking":
                 return "grey";
             case "delivering":
                 return "orange";

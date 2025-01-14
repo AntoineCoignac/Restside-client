@@ -12,7 +12,7 @@ export default function TabNav({tabs, activeTab, setActiveTab} : TabNavProps) {
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={`t-14 p-4 ${activeTab === index ? "c-white tw-600" : "c-grey tw-400"}`}
+            className={`t-14 p-4 ${activeTab === index ? "c-white tw-600" : "c-grey tw-400 h-t-underline"}`}
             onClick={() => setActiveTab(index)}
           >
             {tab}

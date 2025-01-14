@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import getCookTime from "../utils/getCookTime";
 
-interface Order {
+export interface Order {
     id: string;
     simulationId: string;
     name: string;
@@ -37,7 +37,7 @@ interface Order {
     };
     cookTime: number;
     deliveryTime: number;
-    status: "pending" | "preparing" | "delivering" | "done";
+    status: "pending" | "cooking" | "delivering" | "done";
 };
 
 interface OrdersState {
