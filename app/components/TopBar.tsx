@@ -12,17 +12,17 @@ export default function TopBar() {
             <Link href={"/"} className="t-24 c-white tw-600 p-x-16 p-y-8">
                 Restside.
             </Link>
-            <Link href={"/"} className={currentPath == "/" || currentPath == "" ? "p-x-16 p-y-8 flex ai-center c-white tw-600 g-8" : "p-x-16 p-y-8 flex ai-center c-grey g-8"}>
+            <Link href={"/"} className={currentPath == "/" || currentPath == "" ? "p-x-16 p-y-8 flex ai-center c-white tw-600 g-8" : "p-x-16 p-y-8 flex ai-center c-grey g-8 h-t-underline"}>
                 <PlayCircleIcon />
-                <span>Simulation</span>
+                <span className="t-14">Simulation</span>
             </Link>
-            <Link href={"/parametres"} className={currentPath == "/parametres" ? "p-x-16 p-y-8 flex ai-center c-white tw-600 g-8" : "p-x-16 p-y-8 flex ai-center c-grey g-8"}>
+            <Link href={"/parametres"} className={currentPath == "/parametres" ? "p-x-16 p-y-8 flex ai-center c-white tw-600 g-8" : "p-x-16 p-y-8 flex ai-center c-grey g-8 h-t-underline"}>
                 <AdjustmentsVerticalIcon />
-                <span>Paramètres</span>
+                <span className="t-14">Paramètres</span>
             </Link>
-            <Link href={"/historique"} className={currentPath == "/historique" ? "p-x-16 p-y-8 flex ai-center c-white tw-600 g-8" : "p-x-16 p-y-8 flex ai-center c-grey g-8"}>
+            <Link href={"/historique"} className={currentPath == "/historique" ? "p-x-16 p-y-8 flex ai-center c-white tw-600 g-8" : "p-x-16 p-y-8 flex ai-center c-grey g-8 h-t-underline"}>
                 <QueueListIcon />
-                <span>Historique</span>
+                <span className="t-14">Historique</span>
             </Link>
         </div>
     )
