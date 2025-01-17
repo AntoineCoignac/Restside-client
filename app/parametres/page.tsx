@@ -16,8 +16,12 @@ export default function Parametres() {
           </div>
           <div className="flex flex-col g-24">
             <div className="field">
-              <label htmlFor="nborders">Nombre de commandes</label>
-              <input placeholder={"10"} defaultValue={10} type="number" name="nborders"/>
+              <label htmlFor="nbordersmin">Nombre de commandes minimum</label>
+              <input placeholder={"10"} defaultValue={10} type="number" name="nbordersmin"/>
+            </div>
+            <div className="field">
+              <label htmlFor="nbordersmax">Nombre de commandes maximum</label>
+              <input placeholder={"20"} defaultValue={20} type="number" name="nbordersmax"/>
             </div>
             <div className="field">
               <label htmlFor="starttime">Début du service</label>

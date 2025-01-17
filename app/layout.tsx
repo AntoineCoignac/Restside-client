@@ -10,17 +10,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal
+  modal,
 }: Readonly<{
-  children: React.ReactNode;
-  modal: React.ReactNode;
+  children: React.ReactNode
+  modal: React.ReactNode
 }>) {
   return (
     <html lang="fr">
       <body>
-        {modal}
         <TopBar/>
         <div className="page-container">
+          {modal}
           {children}
         </div>
         <BottomBar/>

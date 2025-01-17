@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.4.0",
     "@heroicons/react": "^2.2.0",
+    "@radix-ui/react-dialog": "^1.1.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
@@ -19,6 +21,7 @@
     "react-dom": "^19.0.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
+    "uuid": "^11.0.5",
     "zustand": "^5.0.3"
   },
   "devDependencies": {

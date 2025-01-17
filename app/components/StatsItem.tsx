@@ -6,6 +6,7 @@ import { displayDay } from "../utils/displayDay";
 import { displayTime } from "../utils/displayTime";
 import { displayTimeAgo } from "../utils/displayTimeAgo";
 import { useState } from "react";
+import Link from "next/link";
 
 interface StatsItemProps {
     simulation: Simulation;
@@ -46,9 +47,9 @@ export default function StatsItem({simulation, index} : StatsItemProps) {
             </div>
             {
                 isHovered ?
-                <button style={{width: "24px", height: "24px", position: "absolute", right: "16px"}} className="flex ai-center jc-center">
+                <Link href={`/historique/${simulation.id}`} style={{width: "24px", height: "24px", position: "absolute", right: "16px"}} className="flex ai-center jc-center">
                     <ArrowTrendingUpIcon className="c-white" />
-                </button>
+                </Link>
                 : ""
         }
         </div>
