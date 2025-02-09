@@ -7,7 +7,7 @@ import SettingsBtn from "./SettingsBtn";
 export default function BottomBar() {
 
     return (
-        <div style={{position: 'fixed', bottom: 0}} className="bg-black p-x-32 p-y-24 flex ai-center g-32 w-100">
+        <div style={{position: 'fixed', bottom: 0, height: '80px'}} className="bg-black p-x-32 flex ai-center g-32 w-100">
             <div className="flex ai-center g-16">
                 <PlayBtn/>
                 <SettingsBtn/>
