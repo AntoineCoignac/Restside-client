@@ -8,7 +8,7 @@ export default function TopBar() {
     const currentPath = usePathname();
 
     return (
-        <div style={{position: 'fixed', top: 0, height: "80px"}} className="bg-black w-100 p-x-16 b-bottom flex ai-center">
+        <div style={{position: 'fixed', top: 0, height: "80px", zIndex: 20}} className="bg-black w-100 p-x-16 b-bottom flex ai-center">
             <Link href={"/"} className="t-24 c-white tw-600 p-x-16 p-y-8">
                 Restside.
             </Link>
