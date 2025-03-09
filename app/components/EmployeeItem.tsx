@@ -11,7 +11,7 @@ export default function EmployeeItem({employee, handleDelete} : EmployeeItemProp
     return (
         <div className="flex br-8 ai-center jc-space-between g-16 b bg-dark p-24">
             <div className="flex ai-center g-12">
-                <img style={{width: "24px", minWidth: "24px", height: "24px"}} className="br-24" src={`https://www.tapback.co/api/avatar/${employee.name.toLowerCase().replaceAll(" ", "")}.webp`} alt={employee.name} />
+                <img loading="eager" style={{width: "24px", minWidth: "24px", height: "24px"}} className="br-24" src={`https://www.tapback.co/api/avatar/${employee.name.toLowerCase().replaceAll(" ", "")}.webp`} alt={employee.name} />
                 <span className="c-white">{employee.name}</span>
             </div>
             <button onClick={() => handleDelete(employee.id)} style={{width: "24px", minWidth: "24px", height: "24px"}} className="flex ai-center jc-center c-grey">

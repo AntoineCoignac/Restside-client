@@ -24,6 +24,10 @@ export default function TopBar() {
                 <QueueListIcon />
                 <span className="t-14">Historique</span>
             </Link>
+            <Link href={"/test"} className={currentPath == "/test" ? "p-x-16 p-y-8 flex ai-center c-white tw-600 g-8" : "p-x-16 p-y-8 flex ai-center c-grey g-8 h-t-underline"}>
+                <QueueListIcon />
+                <span className="t-14">Test</span>
+            </Link>
         </div>
     )
 }
