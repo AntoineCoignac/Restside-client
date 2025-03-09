@@ -9,6 +9,7 @@ import { useSettingsStore } from "../store/settings";
 import { v4 as uuidv4 } from 'uuid';
 import {faker} from "@faker-js/faker";
 import { endOfDay } from "date-fns";
+import { displayTime } from "../utils/displayTime";
 
 export default function Parametres() {
   const cooks = useCooksStore((state) => state.cooks);
@@ -131,11 +132,11 @@ export default function Parametres() {
               </div>
               <div className="field">
                 <label htmlFor="starttime">Début du service</label>
-                <input defaultValue={new Date(startTime).toISOString().substring(11, 16)} type="time" name="starttime" onChange={handleChange} />
+                <input defaultValue={displayTime(startTime)} type="time" name="starttime" onChange={handleChange} />
               </div>
               <div className="field">
                 <label htmlFor="endtime">Fin du service</label>
-                <input defaultValue={new Date(endTime).toISOString().substring(11, 16)} type="time" name="endtime" onChange={handleChange} />
+                <input defaultValue={displayTime(endTime)} type="time" name="endtime" onChange={handleChange} />
               </div>
               <div className="field">
                 <label htmlFor="duration">Durée de la simulation (secondes)</label>

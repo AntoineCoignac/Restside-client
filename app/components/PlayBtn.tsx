@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { PauseIcon, PlayIcon } from "@heroicons/react/20/solid";
+import { usePlayStore } from "../store/play";
+import { PauseIcon, PlayIcon, ForwardIcon } from "@heroicons/react/20/solid";
 
 export default function PlayBtn() {
+    const { status, setStatus } = usePlayStore();
+
     const statusList = [
         {
             name: "notStarted",
@@ -18,17 +20,26 @@ export default function PlayBtn() {
         {
             name: "paused",
             text: "Reprendre",
-            icon: <PlayIcon/>
+            icon: <ForwardIcon/>
         }
     ]
-    const [status, setStatus] = useState(statusList[0])
+
+    const currentStatus = statusList.find(s => s.name === status) || statusList[0];
+
+    const handleClick = () => {
+        if (status === "notStarted" || status === "paused") {
+            setStatus("playing");
+        } else if (status === "playing") {
+            setStatus("paused");
+        }
+    };
 
     return (
-        <button className="p-x-16 p-y-8 flex ai-center c-black g-8 bg-white br-24 tw-600">
-            {status.icon}
+        <button onClick={handleClick} style={{width: '144px'}} className="p-x-16 p-y-16 flex ai-center jc-center c-black g-8 bg-white br-32 tw-600 nowrap">
+            {currentStatus.icon}
             <span>
-                {status.text}
+                {currentStatus.text}
             </span>
         </button>
-    )
+    );
 }
