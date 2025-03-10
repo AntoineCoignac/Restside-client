@@ -31,10 +31,10 @@ export interface Order {
         street: string;
         number: number;
         coordinates: {
-            latitude: number;
             longitude: number;
+            latitude: number;
         }
-    };
+    } | null;
     cookTime: number;
     deliveryTime: number;
     status: "pending" | "cooking" | "delivering" | "done";
@@ -87,8 +87,8 @@ const testOrder: Order = {
         street: "Avenue de Fougères",
         number: 12,
         coordinates: {
-            latitude: -0.788886,
             longitude: 48.077976,
+            latitude: -0.788886,
         },
     },
     cookTime: getCookTime({

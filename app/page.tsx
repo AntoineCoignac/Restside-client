@@ -27,7 +27,7 @@ export default function Simulation() {
   return (
     <>
       {domLoaded && <div className="flex g-32 p-32">
-        <div style={{ width: "400px", minWidth: "400px" }} className="flex flex-col g-16">
+        <div style={{ width: "440px", minWidth: "440px" }} className="flex flex-col g-16">
           <div style={{ height: "32px" }} className="flex jc-space-between ai-center g-16">
             <span className="c-white tw-600">Commandes</span>
             <TabNav tabs={["En attente", "En cours", "Terminées"]} activeTab={0} setActiveTab={() => { }} />

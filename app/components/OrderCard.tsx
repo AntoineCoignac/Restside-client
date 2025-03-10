@@ -57,7 +57,7 @@ export default function OrderCard({order} : OrderCardProps) {
             </div>
             <div className="flex jc-space-between g-8">
                 <div className="flex flex-col g-16">
-                    {order?.menuItems && (<div className="flex g-16">
+                    {order?.menuItems && Object.keys(order.menuItems).length > 0 && (<div className="flex g-16">
                         <PizzaIcon />
                         <div className="flex flex-col">
                             {
@@ -74,7 +74,7 @@ export default function OrderCard({order} : OrderCardProps) {
                             }
                         </div>
                     </div>)}
-                    {order?.drinkItems && (<div className="flex g-16">
+                    {order?.drinkItems && Object.keys(order.drinkItems).length > 0 && (<div className="flex g-16">
                         <DrinkIcon />
                         <div className="flex flex-col">
                             {
@@ -91,7 +91,7 @@ export default function OrderCard({order} : OrderCardProps) {
                             }
                         </div>
                     </div>)}
-                    {order?.dessertItems && (<div className="flex g-16">
+                    {order?.dessertItems && Object.keys(order.dessertItems).length > 0 && (<div className="flex g-16">
                         <CookieIcon />
                         <div className="flex flex-col">
                             {
@@ -111,19 +111,23 @@ export default function OrderCard({order} : OrderCardProps) {
                 </div>
                 <Tag text={`${order.cookTime.toString()} min`} color="black" bgColor="white" />
             </div>
-            <div className="flex jc-space-between g-8">
-                <div className="flex flex-col g-16">
-                    {order?.address && (
-                        <div className="flex g-16">
-                            <MapPinIcon/>
-                            <div className="flex flex-col">
-                                <span className="t-14 tlh-150 t-ellipsis">{order.address.number} {order.address.street} {order.address.postCode} {order.address.city}</span>
-                            </div>
+            {
+                order.deliveryTime ?
+                    <div className="flex jc-space-between g-8">
+                        <div className="flex flex-col g-16">
+                            {order?.address && (
+                                <div className="flex g-16">
+                                    <MapPinIcon/>
+                                    <div className="flex flex-col">
+                                        <span className="t-14 tlh-150 t-ellipsis">{order.address.number} {order.address.street} {order.address.postCode} {order.address.city}</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-                <Tag text={`2 min`} color="black" bgColor="white" />
-            </div>
+                        <Tag text={`${order.deliveryTime} min`} color="black" bgColor="white" />
+                    </div>
+                    : null
+            }
         </div>
     ) : 
     (

@@ -1,8 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import { useSettingsStore } from "../store/settings";
+import { useSimulationsStore } from "../store/simulations";
+import { useOrdersStore } from "../store/orders";
+import { usePlayStore } from "../store/play";
+import getCookTime from "../utils/getCookTime";
+import {faker} from "@faker-js/faker";
 
 interface Notification {
   id: string;
@@ -27,6 +32,7 @@ interface Notification {
 
 export default function NotificationComponent() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const simulationIdRef = useRef<string | null>(null);
   const socketRef = useState<Socket | null>(null)[0];
 
   const {
@@ -37,9 +43,12 @@ export default function NotificationComponent() {
     duration,
   } = useSettingsStore();
 
+  const { addSimulation } = useSimulationsStore();
+  const { addOrder, orders } = useOrdersStore();
+  const { setSimulationId } = usePlayStore();
+
   useEffect(() => {
-    // Remplacez 'http://localhost:<PORT_LOCAL>' par l'URL correspondant à votre container Docker
-    const socket = io("http://localhost:5173"); // Exemple avec le port 5173
+    const socket = io("http://localhost:5173");
     socketRef && socketRef.disconnect(); // Si déjà connecté, déconnecter
     socket.connect();
 
@@ -55,15 +64,51 @@ export default function NotificationComponent() {
       }
     );
 
-    // Écouter la réponse d'inscription
+    
     socket.on("registerResponse", (data) => {
       console.log("Inscription réussie :", data);
+      const newSimulation = {
+        id: data.id,
+        ordersCountMin: nbOrdersMin,
+        ordersCountMax: nbOrdersMax,
+        startDateTime: startTime,
+        endDateTime: endTime,
+        duration: duration,
+        createdDateTime: new Date().toISOString(),
+      };
+      
+      setSimulationId(data.id);
+      simulationIdRef.current = data.id;
+      console.log("Simulation ID :", data.id);
+      addSimulation(newSimulation);
     });
 
     // Écouter les notifications
     socket.on("notification", (notification: Notification) => {
       console.log("Notification reçue :", notification);
       setNotifications((prev) => [...prev, notification]);
+
+      const cookTime = getCookTime(notification.menuItems || {}, notification.drinkItems || {}, notification.dessertItems || {});
+      const deliveryTime = notification.address ? 3 : 0;
+
+      console.log("Simulation ID :", simulationIdRef.current);
+
+      const newOrder = {
+        id: notification.id,
+        simulationId: simulationIdRef.current || "",
+        name: faker.person.firstName(), // Generate a random first name using faker
+        realDateTime: notification.realDateTime,
+        simulatedDateTime: notification.simulatedDateTime,
+        menuItems: notification.menuItems,
+        drinkItems: notification.drinkItems,
+        dessertItems: notification.dessertItems,
+        address: notification.address,
+        cookTime: cookTime,
+        deliveryTime: deliveryTime,
+        status: "pending" as "pending",
+      };
+
+      addOrder(newOrder);
     });
 
     // Nettoyage lors du démontage du composant
@@ -74,19 +119,35 @@ export default function NotificationComponent() {
 
   return (
     <div>
-      <h1>Notifications</h1>
-      {notifications.length === 0 ? (
-        <p>Aucune notification reçue.</p>
-      ) : (
-        notifications.map((notif, index) => (
+      <h1>Orders</h1>
+      {orders.length === 0 ? (
+        <p>No orders received.</p>
+            ) : (
+        orders
+          .filter(order => order.simulationId === simulationIdRef.current)
+          .map((order, index) => (
           <div key={index}>
             <p>
-              <strong>Type :</strong> {notif.type}
+              <strong>ID :</strong> {order.id}
             </p>
             <p>
-              <strong>Date réelle :</strong> {notif.realDateTime}
+              <strong>Name :</strong> {order.name}
             </p>
-            {/* Affichez d'autres propriétés en fonction de vos besoins */}
+            <p>
+              <strong>Real Date Time :</strong> {order.realDateTime}
+            </p>
+            <p>
+              <strong>Simulated Date Time :</strong> {order.simulatedDateTime}
+            </p>
+            <p>
+              <strong>Cook Time :</strong> {order.cookTime} minutes
+            </p>
+            <p>
+              <strong>Delivery Time :</strong> {order.deliveryTime} minutes
+            </p>
+            <p>
+              <strong>Status :</strong> {order.status}
+            </p>
           </div>
         ))
       )}
