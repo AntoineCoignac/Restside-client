@@ -25,15 +25,3 @@ export const useSimulationsStore = create<SimulationsState>((set) => ({
     updateSimulation: (id: string, simulation: Simulation) => set(state => ({ simulations: state.simulations.map(s => s.id === id ? simulation : s) })),
     clearSimulations: () => set({ simulations: [] }),
 }));
-
-const testSimulation: Simulation = {
-    id: "ea0e8e82-617c-4b29-94c6-40624784e85a",
-    ordersCountMin: 20,
-    ordersCountMax: 30,
-    startDateTime: "2025-01-12T18:00:00Z",
-    endDateTime: "2025-01-12T21:00:00Z",
-    duration: 180,
-    createdDateTime: "2025-01-15T08:00:00Z",
-};
-
-useSimulationsStore.getState().addSimulation(testSimulation);
