@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import getCookTime from "../utils/getCookTime";
 
 export interface Order {
     id: string;

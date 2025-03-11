@@ -4,18 +4,9 @@ import { usePlayStore } from "../store/play";
 import { displayTime } from "../utils/displayTime";
 import { useEffect, useState } from "react";
 
-export default function ProgressTimeBar() {
-    const { startTime, endTime, currentTime, status, setCurrentTime } = usePlayStore();
+export default function ProgressTimeBar({currentTime} : {currentTime: string | null}) {
+    const { startTime, endTime} = usePlayStore();
     const [progress, setProgress] = useState(0);
-
-    useEffect(() => {
-        if (status === "playing") {
-            const interval = setInterval(() => {
-                setCurrentTime(new Date().toISOString());
-            }, 1000);
-            return () => clearInterval(interval);
-        }
-    }, [status]);
 
     useEffect(() => {
         if (startTime && endTime && currentTime) {
@@ -28,8 +19,8 @@ export default function ProgressTimeBar() {
     return (
         <div className="w-100 flex g-16 ai-center">
             <span className="t-14">{displayTime(startTime)}</span>
-            <div style={{height: '4px'}} className="w-100 br-4 bg-somber">
-                <div style={{width: `${progress}%`, height: '4px'}} className="br-4 bg-white"></div>
+            <div style={{height: '4px', overflowX: 'hidden'}} className="w-100 br-4 bg-somber">
+                <div style={{width: `${progress}%`, height: '4px', transition: 'linear 0.97s'}} className="br-4 bg-white"></div>
             </div>
             <span className="t-14">{displayTime(endTime)}</span>
         </div>

@@ -52,6 +52,11 @@ button{
     width: fit-content;
     height: fit-content;
     cursor: pointer;
+
+    &:disabled{
+        cursor: not-allowed;
+        opacity: 0.2;
+    }
 }
 
 svg[data-slot="icon"]{

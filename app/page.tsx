@@ -17,6 +17,7 @@ export default function Simulation() {
   const cookOrderRelations = useCookOrderRelationsStore((state) => state.cookOrderRelations);
   const deliverymen = useDeliverymenStore((state) => state.deliverymen);
   const deliverymanOrderRelations = useDeliverymanOrderRelationsStore((state) => state.deliverymanOrderRelations);
+  const [ordersActiveTab, setOrdersActiveTab] = useState(0);
 
   const [domLoaded, setDomLoaded] = useState(false);
 
@@ -24,16 +25,27 @@ export default function Simulation() {
     setDomLoaded(true);
   }, []);
 
+  const filteredOrders = orders.filter((order) => {
+    if (ordersActiveTab === 0) {
+      return order.status === "pending";
+    } else if (ordersActiveTab === 1) {
+      return order.status === "cooking" || order.status === "delivering";
+    } else if (ordersActiveTab === 2) {
+      return order.status === "done";
+    }
+    return false;
+  });
+
   return (
     <>
       {domLoaded && <div className="flex g-32 p-32">
         <div style={{ width: "440px", minWidth: "440px" }} className="flex flex-col g-16">
           <div style={{ height: "32px" }} className="flex jc-space-between ai-center g-16">
             <span className="c-white tw-600">Commandes</span>
-            <TabNav tabs={["En attente", "En cours", "Terminées"]} activeTab={0} setActiveTab={() => { }} />
+            <TabNav tabs={["En attente", "En cours", "Terminées"]} activeTab={ordersActiveTab} setActiveTab={setOrdersActiveTab} />
           </div>
           <div className="flex flex-col g-16">
-            {orders.map((order) => (
+            {filteredOrders.map((order) => (
               <OrderCard key={order.id} order={order} />
             ))}
           </div>

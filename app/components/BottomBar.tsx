@@ -51,14 +51,49 @@ export default function BottomBar() {
 
     const { addSimulation } = useSimulationsStore();
     const { addOrder } = useOrdersStore();
-    const { status, setStatus, simulationId, setSimulationId } = usePlayStore();
+    const { currentTime, setCurrentTime, status, setStatus, setSimulationId } = usePlayStore();
+    const [time, setTime] = useState(currentTime);
+    const timeRef = useRef<string | null>(null);
+    const [elapsedSimulatedTimeState, setElapsedSimulatedTimeState] = useState(0);
+    const [playBtnDisabled, setPlayBtnDisabled] = useState(false);
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout | null = null;
+
+        const realDurationSeconds = startTime && endTime ? (new Date(endTime).getTime() - new Date(startTime).getTime()) / 1000 : 0;
+        const speedFactor = realDurationSeconds / duration;
+
+        let elapsedSimulatedTime = elapsedSimulatedTimeState;
+
+        if (statusRef.current === "playing") {
+            interval = setInterval(() => {
+                elapsedSimulatedTime += speedFactor;
+                setElapsedSimulatedTimeState(elapsedSimulatedTime);
+                setTime(new Date(new Date(startTime).getTime() + elapsedSimulatedTime * 1000).toISOString());
+                setCurrentTime(new Date(new Date(startTime).getTime() + elapsedSimulatedTime * 1000).toISOString());
+                timeRef.current = new Date(new Date(startTime).getTime() + elapsedSimulatedTime * 1000).toISOString();
+
+                if (elapsedSimulatedTime >= realDurationSeconds) {
+                    if (interval) {
+                        clearInterval(interval);
+                    }
+                    setPlayBtnDisabled(true);
+                    console.log("Simulation terminée.");
+                }
+            }, 1000);
+        }
+
+        return () => {
+            if (interval) {
+                clearInterval(interval);
+            }
+        };
+    }, [status, statusRef.current, endTime, setCurrentTime, setStatus, startTime]);
 
     const handlePlayClick = () => {
         const socket = io("http://localhost:5173");
         socketRef && socketRef.disconnect();
         socket.connect();
-
-        console.log("statusRef.current", statusRef.current);
 
         if (statusRef.current === "notStarted") {
 
@@ -74,7 +109,6 @@ export default function BottomBar() {
 
             socket.on("registerResponse", (data) => {
                 console.log("Inscription réussie :", data);
-                console.log("Simulation ID :", data.id);
                 const newSimulation = {
                     id: data.id,
                     ordersCountMin: nbOrdersMin,
@@ -99,8 +133,6 @@ export default function BottomBar() {
           
                 const cookTime = getCookTime(notification.menuItems || {}, notification.drinkItems || {}, notification.dessertItems || {});
                 const deliveryTime = notification.address ? 3 : 0;
-                
-                console.log("Simulation ID :", simulationIdRef.current);
           
                 const newOrder = {
                   id: notification.id,
@@ -119,6 +151,8 @@ export default function BottomBar() {
 
                 console.log(statusRef.current);
                 addOrder(newOrder);
+                
+
               });
         } else if (statusRef.current === "playing") {
             socket.emit("playPause", {
@@ -162,7 +196,7 @@ export default function BottomBar() {
     return (
         <div style={{ position: 'fixed', bottom: 0, height: '80px' }} className="bg-black p-x-32 flex ai-center g-32 w-100">
             <div className="flex ai-center g-16">
-                <button onClick={handlePlayClick} style={{ width: '144px' }} className="p-x-16 p-y-16 flex ai-center jc-center c-black g-8 bg-white br-32 tw-600 nowrap">
+                <button disabled={playBtnDisabled} onClick={handlePlayClick} style={{ width: '144px' }} className="p-x-16 p-y-16 flex ai-center jc-center c-black g-8 bg-white br-32 tw-600 nowrap">
                     {currentStatus.icon}
                     <span>
                         {currentStatus.text}
@@ -170,7 +204,7 @@ export default function BottomBar() {
                 </button>
                 <SettingsBtn />
             </div>
-            <ProgressTimeBar />
+            <ProgressTimeBar currentTime={time}/>
         </div>
     );
 }
