@@ -1,7 +1,7 @@
 import { MapPinIcon, TicketIcon } from "@heroicons/react/20/solid";
 import { Cook } from "../store/cooks";
 import Tag from "./Tag";
-import ProgressTimeBar from "./ProgressTimeBar";
+import ProgressTimeBarLittle from "./ProgressTimeBarLittle";
 
 interface CookCardProps {
     cook: Cook;
@@ -49,7 +49,7 @@ export default function CookCard({cook} : CookCardProps) {
                 </div>
             </div>
             <div className="w-100 tabulation">
-                <ProgressTimeBar startTime={"2025-01-11T18:22:00.7849703Z"} endTime={"2025-01-11T18:42:00.7849703Z"} currentTime={"2025-01-11T18:32:45.7849703Z"} />
+                <ProgressTimeBarLittle startTime={"2025-01-11T18:22:00.7849703Z"} endTime={"2025-01-11T18:42:00.7849703Z"} currentTime={"2025-01-11T18:32:45.7849703Z"} />
             </div>
             <div className="flex jc-space-between g-8">
                 <div className="flex g-16">
