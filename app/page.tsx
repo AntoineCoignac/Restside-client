@@ -10,6 +10,7 @@ import { useDeliverymenStore } from "./store/deliverymen";
 import { useDeliverymanOrderRelationsStore } from "./store/relation/deliverymanOrderRelations";
 import DeliverymanCard from "./components/DeliverymanCard";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function Simulation() {
   const orders = useOrdersStore((state) => state.orders);
@@ -63,7 +64,7 @@ export default function Simulation() {
         <div className="flex flex-col g-16 w-100">
           <div style={{ height: "32px" }} className="flex jc-space-between ai-center g-16">
             <span className="c-white tw-600">Livreurs</span>
-            <button className="t-14 c-grey p-4 h-t-underline">Voir sur la carte</button>
+            <Link href={"/carte"} className="t-14 c-grey p-4 h-t-underline">Voir sur la carte</Link>
           </div>
           <div className="flex flex-col g-16">
             {deliverymen.map((deliveryman) => (

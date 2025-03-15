@@ -1,12 +1,14 @@
 "use client";
 
-import { ArrowTrendingUpIcon, PlayIcon } from "@heroicons/react/20/solid";
+import { ArrowTrendingUpIcon, CheckIcon, PlayIcon } from "@heroicons/react/20/solid";
 import { Simulation } from "../store/simulations";
 import { displayDay } from "../utils/displayDay";
 import { displayTime } from "../utils/displayTime";
 import { displayTimeAgo } from "../utils/displayTimeAgo";
 import { useState } from "react";
 import Link from "next/link";
+import { usePlayStore } from "../store/play";
+import { set } from "date-fns";
 
 interface StatsItemProps {
     simulation: Simulation;
@@ -16,13 +18,23 @@ interface StatsItemProps {
 export default function StatsItem({simulation, index} : StatsItemProps) {
     const [isHovered, setIsHovered] = useState(false);
 
+    const { setReplayId } = usePlayStore();
+
+    const handlePlay = () => {
+        setReplayId(simulation.id);
+    };
+
     return (
         <div style={{height:"80px", position: "relative"}} className={`p-x-16 flex ai-center g-16 w-100 br-8 ${isHovered ? "bg-dark" : ""}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
             <div style={{minWidth:"64px"}}>
                 {
                     isHovered ? (
-                        <button style={{width: "24px", height: "24px"}} className="flex ai-center jc-center">
-                            <PlayIcon className="c-white" />
+                        <button onClick={handlePlay} style={{width: "24px", height: "24px"}} className="flex ai-center jc-center">
+                            { usePlayStore.getState().replayId === simulation.id ?
+                                <CheckIcon className="c-white" />
+                                :
+                                <PlayIcon className="c-white" />
+                            }
                         </button>
                     ) :
                     (

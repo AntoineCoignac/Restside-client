@@ -14,11 +14,11 @@ interface SettingsState {
 }
 
 export const useSettingsStore = create<SettingsState>((set) => ({
-    nbOrdersMin: 20,
-    nbOrdersMax: 30,
+    nbOrdersMin: 50,
+    nbOrdersMax: 60,
     startTime: `${new Date().toISOString().split('T')[0]}T18:00:00Z`,
-    endTime: `${new Date().toISOString().split('T')[0]}T23:00:00Z`,
-    duration: 30,
+    endTime: `${new Date().toISOString().split('T')[0]}T22:00:00Z`,
+    duration: 60,
     setNbOrdersMin: (nbOrdersMin: number) => set({ nbOrdersMin }),
     setNbOrdersMax: (nbOrdersMax: number) => set({ nbOrdersMax }),
     setStartTime: (startTime: string) => set({ startTime }),

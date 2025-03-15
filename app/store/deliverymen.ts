@@ -21,6 +21,10 @@ const defaultCooks: Deliveryman[] = [
     { id: uuidv4(), name: faker.person.firstName(), status: "pending" },
     { id: uuidv4(), name: faker.person.firstName(), status: "pending" },
     { id: uuidv4(), name: faker.person.firstName(), status: "pending" },
+    { id: uuidv4(), name: faker.person.firstName(), status: "pending" },
+    { id: uuidv4(), name: faker.person.firstName(), status: "pending" },
+    { id: uuidv4(), name: faker.person.firstName(), status: "pending" },
+    { id: uuidv4(), name: faker.person.firstName(), status: "pending" },
 ];
 
 export const useDeliverymenStore = create<DeliverymenState>((set) => ({

@@ -7,12 +7,14 @@ interface PlayState {
   endTime: string ;
   currentTime: string ;
   duration: number;
+  replayId: string | null;
   setSimulationId: (simulationId: string) => void;
   setStatus: (status: "notStarted" | "playing" | "paused") => void;
   setStartTime: (startTime: string) => void;
   setEndTime: (endTime: string) => void;
   setCurrentTime: (currentTime: string) => void;
   setDuration: (duration: number) => void;
+  setReplayId: (replayId: string | null) => void;
 }
 
 export const usePlayStore = create<PlayState>((set) => ({
@@ -22,10 +24,12 @@ export const usePlayStore = create<PlayState>((set) => ({
   endTime: `${new Date().toISOString().split('T')[0]}T23:00:00Z`,
   currentTime: `${new Date().toISOString().split('T')[0]}T18:00:00Z`,
   duration: 0,
+  replayId: null,
   setSimulationId: (simulationId: string) => set({ simulationId }),
   setStatus: (status: "notStarted" | "playing" | "paused") => set({ status }),
   setStartTime: (startTime: string) => set({ startTime }),
   setEndTime: (endTime: string) => set({ endTime }),
   setCurrentTime: (currentTime: string) => set({ currentTime }),
   setDuration: (duration: number) => set({ duration }),
+  setReplayId : (replayId: string | null) => set({ replayId})
 }));

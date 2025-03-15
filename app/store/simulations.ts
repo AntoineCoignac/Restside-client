@@ -7,6 +7,7 @@ export interface Simulation {
     startDateTime: string;
     endDateTime: string;
     duration: number;
+    seed: number;
     createdDateTime: string;
 }
 

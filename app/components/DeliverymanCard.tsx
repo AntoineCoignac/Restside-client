@@ -2,12 +2,21 @@ import { MapPinIcon, TicketIcon } from "@heroicons/react/20/solid";
 import Tag from "./Tag";
 import { Deliveryman } from "../store/deliverymen";
 import ProgressTimeBarLittle from "./ProgressTimeBarLittle";
+import { useDeliverymanOrderRelationsStore } from "../store/relation/deliverymanOrderRelations";
+import { useOrdersStore } from "../store/orders";
+import { usePlayStore } from "../store/play";
 
 interface DeliverymanCardProps {
     deliveryman: Deliveryman;
 }
 
 export default function DeliverymanCard({deliveryman} : DeliverymanCardProps) {
+    const deliverymanOrderRelations = useDeliverymanOrderRelationsStore((state) => state.deliverymanOrderRelations);
+    const orders = useOrdersStore((state) => state.orders);
+
+    const deliverymanOrderRelation = deliverymanOrderRelations.find((relation) => relation.deliverymanId === deliveryman.id);
+
+    const order = deliverymanOrderRelation ? orders.find((order) => order.id === deliverymanOrderRelation.orderId) : null;
 
     const statusToDeliveryColor = (status: string) => {
         switch (status) {
@@ -40,11 +49,13 @@ export default function DeliverymanCard({deliveryman} : DeliverymanCardProps) {
                 </div>
                 <Tag text={statusToDeliveryText(deliveryman.status)} color={statusToDeliveryColor(deliveryman.status)} bgColor={`${statusToDeliveryColor(deliveryman.status)}-20`} />
             </div>
+            {order && deliverymanOrderRelation && (
+                <>
             <div className="flex jc-space-between g-8">
                 <div className="flex g-16">
                     <TicketIcon/>
                     <div className="flex flex-col">
-                        <span className="t-14 tlh-150 t-ellipsis">Commande de John</span>
+                        <span className="t-14 tlh-150 t-ellipsis">Commande de {order.name}</span>
                     </div>
                 </div>
             </div>
@@ -52,13 +63,14 @@ export default function DeliverymanCard({deliveryman} : DeliverymanCardProps) {
                 <div className="flex g-16">
                     <MapPinIcon/>
                     <div className="flex flex-col">
-                        <span className="t-14 tlh-150 t-ellipsis">12 Avenue de Fougères 53000 Laval</span>
+                        <span className="t-14 tlh-150 t-ellipsis">{order.address?.number} {order.address?.street} {order.address?.postCode} {order.address?.city}</span>
                     </div>
                 </div>
             </div>
             <div className="w-100 tabulation">
-                <ProgressTimeBarLittle startTime={"2025-01-11T18:22:00.7849703Z"} endTime={"2025-01-11T18:42:00.7849703Z"} currentTime={"2025-01-11T18:32:45.7849703Z"} />
+                <ProgressTimeBarLittle startTime={deliverymanOrderRelation.startDateTime} endTime={deliverymanOrderRelation.endDateTime} currentTime={usePlayStore.getState().currentTime} />
             </div>
+            </>)}
         </div>
     ) : (
         <div>
