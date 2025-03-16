@@ -9,7 +9,6 @@ COPY lib ./lib
 COPY public ./public
 COPY components.json ./components.json
 COPY eslint.config.mjs ./eslint.config.mjs
-COPY next-env.d.ts ./next-env.d.ts
 COPY next.config.ts ./next.config.ts
 COPY postcss.config.js ./postcss.config.js
 COPY tailwind.config.js ./tailwind.config.js
