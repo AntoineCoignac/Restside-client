@@ -38,7 +38,7 @@ interface Notification {
     timestamp: string;
 }
 
-const socket = io("http://notification:5173");
+const socket = io("http://localhost:5173");
 
 export default function BottomBar() {
     useSyncPlayWithSettings();
